@@ -1,0 +1,1 @@
+require "middleman-i18n/feature"

@@ -4,7 +4,7 @@ require "middleman-i18n/version"
 
 Gem::Specification.new do |s|
   s.name        = "middleman-i18n"
-  s.version     = Middleman::Blog::VERSION
+  s.version     = Middleman::I18n::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Thomas Reynolds"]
   s.email       = ["me@tdreyno.com"]
@@ -20,4 +20,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   
   s.add_runtime_dependency("middleman", ["~> 2.0.10"])
+  s.add_development_dependency("cucumber", ["~> 1.0.2"])
+  s.add_development_dependency("rake", ["~> 0.9.2"])
+  s.add_development_dependency("rspec", ["~> 2.6.0"])
 end

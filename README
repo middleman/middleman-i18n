@@ -4,16 +4,3 @@ activate :i18n
 #   locales/en.yml, locales/es.yml
 #   source/localizable/files.html
 localize [:en, :es], :path => "/:locale/", :root => "localizable"
-
-# Pseudo-implementation
-files = Dir[File.join(app.views, root, "**/*")]
-langs.each do |lang|
-  prefix = path.gsub(":locale", lang)
-  files.each do |file|
-    url = files.split(app.views).last
-    localized_url = File.join(prefix, url)
-    page localized_url, :proxy => url, :ignore => true do
-      I18n.locale = lang
-    end
-  end
-end

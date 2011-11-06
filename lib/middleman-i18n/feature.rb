@@ -31,7 +31,11 @@ module Middleman
           
           path          = options[:path]          || "/:locale/"
           templates_dir = options[:templates_dir] || "localizable"
-          mount_at_root = options[:mount_at_root] || langs.first
+          mount_at_root = options.has_key?(:mount_at_root) ? options[:mount_at_root] : langs.first
+          
+          if !settings.views.include?(settings.root)
+            settings.set :views, File.join(settings.root, settings.views)
+          end
           
           files = Dir[File.join(settings.views, templates_dir, "**/*")]
           
@@ -41,17 +45,18 @@ module Middleman
             
             # Build lang path
             if mount_at_root == lang
-              prefix = path.gsub(":locale/", "")
+              prefix = "/"
             else
               prefix = path.gsub(":locale", lang.to_s)
             end
-            
+
             files.each do |file|
               url = file.gsub(settings.views, "").split(".html").first + ".html"
               
               page_id = File.basename(url, File.extname(url))
               localized_page_id = ::I18n.t("paths.#{page_id}", :default => page_id)
               localized_url = File.join(prefix, url.gsub(templates_dir + "/", "")).gsub(page_id, localized_page_id)
+
               page localized_url, :proxy => url, :ignore => true do
                 ::I18n.locale = lang
                 @lang         = lang

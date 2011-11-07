@@ -5,16 +5,16 @@ module Middleman
         def registered(app)
           ::I18n.load_path += Dir[File.join(app.root, "locales", "*.yml")]
 
-          require "middleman/guard"
-          require "guard/livereload"
+          # require "middleman/guard"
+          # require "guard/livereload"
 
-          Middleman::Guard.add_guard do
-            %Q{
-              guard 'middleman' do 
-                watch(%r{^locales/^[^\.](.*)\.yml$})
-              end
-            }
-          end
+          # Middleman::Guard.add_guard do
+          #   %Q{
+          #     guard 'middleman' do 
+          #       watch(%r{^locales/^[^\.](.*)\.yml$})
+          #     end
+          #   }
+          # end
 
           app.extend ClassMethods
         end

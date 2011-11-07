@@ -29,6 +29,7 @@ module Middleman
             end
           end
           
+          lang_map      = options[:lang_map]      || {}
           path          = options[:path]          || "/:locale/"
           templates_dir = options[:templates_dir] || "localizable"
           mount_at_root = options.has_key?(:mount_at_root) ? options[:mount_at_root] : langs.first
@@ -47,7 +48,8 @@ module Middleman
             if mount_at_root == lang
               prefix = "/"
             else
-              prefix = path.gsub(":locale", lang.to_s)
+              replacement = lang_map.has_key?(lang) ? lang_map[lang] : lang
+              prefix = path.gsub(":locale", replacement.to_s)
             end
 
             files.each do |file|

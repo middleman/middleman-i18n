@@ -2,3 +2,4 @@
 .rbenv-version
 Gemfile.lock
 .sass-cache
+pkg

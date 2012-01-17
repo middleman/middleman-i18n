@@ -22,6 +22,26 @@ module Middleman
       end
       
       module ClassMethods
+        # Finds the appropriate file extension for the given file using the
+        # list of configured extensions. This allows the middleman-i18n
+        # module to build non-.html files. For example, the need for this
+        # arose when generating Wordpress templates (thus .php files) using
+        # Middleman.
+        #
+        # If none of the file extensions are found then the first one in the
+        # given `file_extensions` Array is returned.
+        def find_extension(file_extensions, file)
+          file_extensions.each do |extension|
+            if (file.include? extension)
+              return extension
+            end
+          end
+          if (file_extensions.length > 0)
+            return file_extensions[0]
+          end
+          return ""
+        end
+
         def localize(options={})
           langs = options[:langs] || begin
             Dir[File.join(settings.root, "locales", "*.yml")].map do |file|
@@ -33,7 +53,8 @@ module Middleman
           path          = options[:path]          || "/:locale/"
           templates_dir = options[:templates_dir] || "localizable"
           mount_at_root = options.has_key?(:mount_at_root) ? options[:mount_at_root] : langs.first
-          
+          file_extensions = options[:lang_file_extensions] || [".html"]
+
           if !settings.views.include?(settings.root)
             settings.set :views, File.join(settings.root, settings.views)
           end
@@ -53,7 +74,8 @@ module Middleman
             end
 
             files.each do |file|
-              url = file.gsub(settings.views, "").split(".html").first + ".html"
+              extension = find_extension(file_extensions, file)
+              url = file.gsub(settings.views, "").split(extension).first + extension
               
               page_id = File.basename(url, File.extname(url))
               localized_page_id = ::I18n.t("paths.#{page_id}", :default => page_id)

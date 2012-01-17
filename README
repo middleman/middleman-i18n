@@ -3,4 +3,12 @@ activate :i18n
 # Requires:
 #   locales/en.yml, locales/es.yml
 #   source/localizable/files.html
-localize [:en, :es], :path => "/:locale/", :root => "localizable"
+localize [:en, :es], :path => "/:locale/", :root => "localizable", :lang_file_extensions => [".html"]
+
+:lang_file_extensions
+---------------------
+
+By default middleman-i18n will only localize files containing _.html_, but
+this behavior can be overridden by specifying the file extensions to include
+in localization. For example, to localize both _.html_ and _.php_ files use
+`:lang_file_extensions => [".html", ".php"]`.

@@ -1,6 +1,0 @@
-activate :i18n
-
-# Requires:
-#   locales/en.yml, locales/es.yml
-#   source/localizable/files.html
-localize [:en, :es], :path => "/:locale/", :root => "localizable"
